@@ -5,13 +5,13 @@ $(document).ready( function(){
             
             // SETTINGS
             var screenpointSplitt = 10000 
-            var movingSpeed = 0.1 
+            var movingSpeed = 0.1
             
             var viewportWidth = $(window).width();
             var viewportHeight = $(window).height();
             
             // Calculate Screen Dots
-            var nbCalculated = 100/*Math.round((viewportHeight*viewportWidth/screenpointSplitt))*/
+            var nbCalculated = Math.round((viewportHeight*viewportWidth/screenpointSplitt))
             
             //CONFIG
             var _this = this,
@@ -21,12 +21,12 @@ $(document).ready( function(){
             _this.config = {
                 
                 star: {
-                    color:  'rgba(0,0,0,1)'
+                    color:  'rgba(255,255,255,1)'
                 },
                 
                 line: {
-                    color: 'rgba(0,0,0,1)',
-                    width: 0.1
+                    color: 'rgba(255,255,255,1)' ,
+                    width: 0.2
                 },
                 
                 position: {
@@ -36,8 +36,8 @@ $(document).ready( function(){
                 
                 velocity: movingSpeed,
                 length: nbCalculated,
-                distance: 200,
-                radius: 200,
+                distance: 100,
+                radius: 120,
                 stars: []
                 
             };
@@ -49,7 +49,7 @@ $(document).ready( function(){
                 this.vx = (_this.config.velocity - (Math.random() * 0.3));
                 this.vy = (_this.config.velocity - (Math.random() * 0.3));
         
-                this.radius = Math.random();
+                
             }
         
             Star.prototype = {
@@ -57,6 +57,7 @@ $(document).ready( function(){
                     ctx.beginPath();
                     ctx.arc(this.x, this.y,1, 0, Math.PI * 2, false);
                     ctx.fill();
+                    ctx.closePath();
                 },
         
                 animate: function(){
@@ -181,26 +182,6 @@ $(document).ready( function(){
         
         callCanvas($('canvas')[0]).init();	
         
-        //Resize Canvas 
-        var waitForFinalEvent = (function () {
-          var timers = {};
-          return function (callback, ms, uniqueId) {
-            if (!uniqueId) {
-              uniqueId = "Don't call this twice without a uniqueId";
-            }
-            if (timers[uniqueId]) {
-              clearTimeout (timers[uniqueId]);
-            }
-            timers[uniqueId] = setTimeout(callback, ms);
-          };
-        })();
-        
-        $(window).resize(function () {
-            waitForFinalEvent(function(){
-                callCanvas($('canvas')[0]).init();	
-    
-            }, 400, "some unique string");
-        });
     
     });
     
